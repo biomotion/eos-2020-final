@@ -34,25 +34,29 @@ void Game::timer_handler(int signum)
 
 void Game::gameLoop()
 {
-  while (!this->quit)
+  while (!myGame.quit)
   {
-    switch (this->gameState)
+    switch (myGame.gameState)
     {
     case GAME_STATE_INIT:
-      this->gameState = handleInit();
+      myGame.gameState = handleInit();
       break;
     case GAME_STATE_PLAYING:
-      this->gameState = handlePlaying();
+      myGame.gameState = handlePlaying();
+      break;
+    case GAME_STATE_END:
+      myGame.gameState = GAME_STATE_INIT;
       break;
     default:
       break;
     }
+    myGame.broadcastToPlayers();
   }
 }
 
 void Game::gameStop(){
-  gameOver = true;
-  quit = true;
+  myGame.gameOver = true;
+  myGame.quit = true;
 }
 
 void Game::broadcastToPlayers()
@@ -106,16 +110,16 @@ int Game::handleInit()
 int Game::handlePlaying()
 {
   // Setup Game environment: Game timer, Mole States, Player Threads
-  sem = semget(SEM_KEY, 1, IPC_CREAT | IPC_EXCL | SEM_MODE);
+  myGame.sem = semget(SEM_KEY, 1, IPC_CREAT | IPC_EXCL | SEM_MODE);
   // sem = semget(SEM_KEY, 1, IPC_CREAT | SEM_MODE);
-  if (sem < 0)
+  if (myGame.sem < 0)
   {
     perror("Error create semaphore\n");
-    semctl(sem, 0, IPC_RMID, 0);
+    semctl(myGame.sem, 0, IPC_RMID, 0);
     exit(-1);
   }
   printf("sem created\n");
-  if (semctl(sem, 0, SETVAL, 1) < 0)
+  if (semctl(myGame.sem, 0, SETVAL, 1) < 0)
   {
     perror("Error semctl\n");
     exit(-1);
@@ -157,7 +161,7 @@ int Game::handlePlaying()
   }
 
   printf("remove sem\n");
-  if (semctl(sem, 0, IPC_RMID, 0) < 0)
+  if (semctl(myGame.sem, 0, IPC_RMID, 0) < 0)
   {
     perror("Error removing sem\n");
     exit(-1);
@@ -167,7 +171,7 @@ int Game::handlePlaying()
     close(myGame.players[i].connfd);
   }
 
-  return GAME_STATE_INIT;
+  return GAME_STATE_END;
 }
 
 void *Game::thread_handler(void *arg)
@@ -209,6 +213,7 @@ void *Game::thread_handler(void *arg)
     {
       // write(myGame.players[index].connfd, "MISS\n", sizeof("MISS\n"));
     }
+    usleep(200000);
     myGame.V(myGame.sem);
     myGame.broadcastToPlayers();
   }

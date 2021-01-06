@@ -11,16 +11,12 @@
 #define SEM_KEY 309512015
 #define SEM_MODE 0666
 
-#include "mole.h"
 #include "socket_utils.h"
 #include "data_utils.h"
 
 
-#define ROUND_TIMES 5
-#define ROUND_INTERVAL 1
-
-#define GAME_STATE_INIT 0
-#define GAME_STATE_PLAYING 1
+#define ROUND_TIMES 20
+#define ROUND_INTERVAL 3
 
 #define MOLE_STATE_UP 0
 #define MOLE_STATE_DOWN 1

@@ -1,15 +1,18 @@
 #ifndef __PKT_UTIL_H__
 #define __PKT_UTIL_H__
 
-#include "mole.h"
 #define NUM_MOLES 9
-#define NUM_PLAYERS 2
+#define NUM_PLAYERS 1
+
+#define GAME_STATE_INIT 0
+#define GAME_STATE_PLAYING 1
+#define GAME_STATE_END 2
 
 typedef struct
 {
   int gameState;
   int score;
-  struct Mole mole_states[NUM_MOLES];
+  char mole_states[NUM_MOLES];
 } server_pkt;
 
 #endif
