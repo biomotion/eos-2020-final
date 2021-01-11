@@ -5,7 +5,7 @@
 #include <pthread.h>
 #include <sys/fcntl.h>
 #include <sys/ioctl.h>
-#include "/home/eos/microtime/pro/devkit/lsp/create-pxa270/linux-2.6.15.3/include/asm-arm/arch-pxa/lib/creator_pxa270_lcd.h"
+#include "asm-arm/arch-pxa/lib/creator_pxa270_lcd.h"
 #include "sockop.h"
 #include "game_client.h"
 

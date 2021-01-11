@@ -2,7 +2,10 @@ CXX=g++
 CFLAGS=-Wall -pthread -std=c++11
 
 CC_ARM=arm-unknown-linux-gnu-gcc
-CFLAGS_ARM=-L /opt/arm-unknown-linux-gnu/arm-unknown-linux-gnu/lib/ -I /opt/arm-unknown-linux-gnu/arm-unknown-linux-gnu/include/ -I /home/eos/microtime/linux/include/ -I  /home/eos/microtime/pro/devkit/lsp/create-pxa270/linux-2.6.15.3/include/asm-arm/arch-pxa/lib/ -pthread
+CFLAGS_ARM=-L /opt/arm-unknown-linux-gnu/arm-unknown-linux-gnu/lib/ \
+	   -I /opt/arm-unknown-linux-gnu/arm-unknown-linux-gnu/include/ \
+	   -I /hostroot/home/biomotion/microtime/linux/include/ \
+	   -pthread
 
 all:
 	${CXX} ${CFLAGS} -c game.cpp

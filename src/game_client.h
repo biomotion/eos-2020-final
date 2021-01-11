@@ -9,7 +9,7 @@
 #include <sys/sem.h>
 #include <string.h>
 #include "data_utils.h"
-#include "/home/eos/microtime/pro/devkit/lsp/create-pxa270/linux-2.6.15.3/include/asm-arm/arch-pxa/lib/creator_pxa270_lcd.h"
+#include "asm-arm/arch-pxa/lib/creator_pxa270_lcd.h"
 
 #define MENU 0
 #define MOLE 1
